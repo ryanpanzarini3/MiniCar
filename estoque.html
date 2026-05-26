@@ -1,0 +1,565 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estoque - Mini's Car Multimarcas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="icon" type="image/png" sizes="64x64" href="favicon.png?v=2">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0a0a0a',
+                        secondary: '#dc2626',
+                        accent: '#ef4444'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            background-image: url('imagens/Red\ and\ Black\ Geometric\ Abstract\ Zoom\ Virtual\ Background.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center center;
+        }
+        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 40px -15px rgba(220, 38, 38, 0.3); }
+        .car-card { background-color: #7f1d1d !important; }
+        .car-card h3, .car-card .car-title { color: #f1f5f9 !important; }
+        .car-card .text-slate-500, .car-card .text-slate-600, .car-card .text-gray-600 { color: #94a3b8 !important; }
+        .car-card .border-slate-100 { border-color: rgba(255, 255, 255, 0.336) !important; }
+        .checkbox-custom:checked { background-color: #dc2626; border-color: #dc2626; }
+        
+        .logo-l-e {
+            color: #ffffff;
+            animation: glowWhite 3s ease-in-out infinite;
+        }
+        .logo-m {
+            color: #ef4444;
+            animation: glowRed 3s ease-in-out infinite;
+            animation-delay: 0.3s;
+        }
+        .logo-auto {
+            color: #ffffff;
+            animation: glowWhite 3s ease-in-out infinite;
+            animation-delay: 0.6s;
+        }
+        @keyframes glowWhite {
+            0%, 100% { 
+                text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+            }
+            50% { 
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.5);
+            }
+        }
+        @keyframes glowRed {
+            0%, 100% { 
+                text-shadow: 0 0 5px rgba(220, 38, 38, 0.3);
+            }
+            50% { 
+                text-shadow: 0 0 20px rgba(220, 38, 38, 0.8), 0 0 30px rgba(220, 38, 38, 0.5);
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-100 antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 text-white transition-all duration-300" id="navbar" style="background-color: #111111;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-16 flex-shrink-0" viewBox="0 0 100 58" fill="none"><path d="M8 40 L22 18 L44 10 L72 10 L89 23 L96 40 L96 48 L4 48 Z" fill="#e5e7eb"/><path d="M24 20 L42 13 L70 13 L85 25 Z" fill="#9ca3af"/><circle cx="26" cy="47" r="10" fill="#374151"/><circle cx="26" cy="47" r="4.5" fill="#9ca3af"/><circle cx="78" cy="47" r="10" fill="#374151"/><circle cx="78" cy="47" r="4.5" fill="#9ca3af"/></svg>
+                        <div class="leading-none">
+                            <div class="font-display font-black text-xl text-white tracking-[0.1em]">MINI'S CAR</div>
+                            <div class="font-display font-black text-sm text-red-500 tracking-[0.2em]">MULTIMARCAS</div>
+                            <div class="flex gap-1.5 mt-1"><div class="h-[2px] w-12 bg-red-500 rounded-full"></div><div class="h-[2px] w-6 bg-red-500 rounded-full"></div></div>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-sm font-medium hover:text-secondary transition-colors">Home</a>
+                    <a href="estoque.html" class="text-sm font-medium text-secondary">Estoque</a>
+                    <a href="sobre.html" class="text-sm font-medium hover:text-secondary transition-colors">Sobre</a>
+                    <a href="contato.html" class="px-6 py-3 bg-secondary text-primary font-semibold rounded-full hover:bg-red-600 transition-all">Contato</a>
+                </div>
+
+                <button class="md:hidden" id="mobile-menu-btn">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="hidden md:hidden bg-primary border-t border-white/10" id="mobile-menu">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="index.html" class="block py-3 text-sm font-medium hover:text-secondary">Home</a>
+                <a href="estoque.html" class="block py-3 text-sm font-medium text-secondary">Estoque</a>
+                <a href="sobre.html" class="block py-3 text-sm font-medium hover:text-secondary">Sobre</a>
+                <a href="contato.html" class="block py-3 text-sm font-medium text-secondary">Contato</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="pt-32 pb-20 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-end">
+            <div>
+                <h1 class="font-display text-4xl font-bold mb-2">Nosso Estoque</h1>
+                <p class="text-slate-400">Encontre o veículo ideal com nossa tecnologia de busca</p>
+            </div>
+            <div class="flex items-center gap-2 text-sm text-slate-300">
+                <span>Ordenar por:</span>
+                <select id="sort-select" class="border border-white/20 rounded-lg px-3 py-2 text-sm bg-white/10 text-white focus:outline-none focus:border-red-500 backdrop-blur-sm">
+                    <option class="text-slate-800">Mais recentes</option>
+                    <option class="text-slate-800">Menor preço</option>
+                    <option class="text-slate-800">Maior preço</option>
+                    <option class="text-slate-800">Menor km</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="relative z-10 -mt-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="rounded-2xl shadow-2xl px-6 py-5" style="background-color: #383838;">
+            <div class="flex flex-wrap gap-4 items-end">
+                <!-- Buscar -->
+                <div class="flex-1 min-w-[200px]">
+                    <label class="block text-xs font-semibold text-white uppercase tracking-wide mb-1.5">Buscar</label>
+                    <input id="search-input" type="text" placeholder="Buscar por modelo ou palavra-chave" class="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl text-sm text-white placeholder-white/40 focus:outline-none focus:border-red-500 focus:bg-white/15 transition-all">
+                </div>
+                <!-- Tipo -->
+                <div class="min-w-[155px]">
+                    <label class="block text-xs font-semibold text-white uppercase tracking-wide mb-1.5">Tipo (Carro/Moto)</label>
+                    <select id="type-select" class="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl text-sm text-white focus:outline-none focus:border-red-500 transition-all appearance-none cursor-pointer">
+                        <option value="" class="text-white-800 bg-white">Carro/Moto</option>
+                        <option value="Carro" class="text-white-800 bg-white">Carro</option>
+                        <option value="Moto" class="text-white-800 bg-white">Moto</option>
+                    </select>
+                </div>
+                <!-- Marca -->
+                <div class="min-w-[155px] relative" id="brand-dropdown-wrapper">
+                    <label class="block text-xs font-semibold text-white uppercase tracking-wide mb-1.5">Marca</label>
+                    <button type="button" id="brand-dropdown-btn" class="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl text-sm text-white text-left flex justify-between items-center gap-2 focus:outline-none focus:border-red-500 transition-all">
+                        <span id="brand-dropdown-label" class="text-white">Marca</span>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-white/40 flex-shrink-0"></i>
+                    </button>
+                    <div id="brand-dropdown-panel" class="hidden absolute top-full left-0 mt-1 w-64 bg-white border border-slate-200 rounded-2xl shadow-xl z-50 p-3">
+                        <div class="flex items-center gap-2 border-b border-slate-100 pb-2 mb-2">
+                            <i data-lucide="search" class="w-4 h-4 text-slate-400 flex-shrink-0"></i>
+                            <input id="brand-search-input" type="text" placeholder="Buscar marca..." class="flex-1 text-sm outline-none text-slate-700">
+                            <button type="button" id="brand-clear-btn" class="text-xs text-secondary hover:underline flex-shrink-0">Limpar</button>
+                        </div>
+                        <div id="brand-list" class="grid grid-cols-2 gap-1 max-h-52 overflow-y-auto"></div>
+                    </div>
+                </div>
+                <!-- Faixa de Preço -->
+                <div class="min-w-[180px]">
+                    <label class="block text-xs font-semibold text-white uppercase tracking-wide mb-1.5">Faixa de Preço</label>
+                    <input id="price-filter-range" type="range" min="50000" max="500000" step="1000" value="500000" class="w-full h-1.5 rounded-lg appearance-none cursor-pointer accent-secondary">
+                    <div class="flex justify-between text-xs text-white/40 mt-1.5">
+                        <span>R$ 50.000</span>
+                        <span id="price-filter-max-label" class="font-medium text-white/70">R$ 500.000</span>
+                    </div>
+                </div>
+                <!-- Combustível -->
+                <div class="min-w-[140px]">
+                    <label class="block text-xs font-semibold text-white uppercase tracking-wide mb-1.5">Combustível</label>
+                    <select id="fuel-select" class="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl text-sm text-white focus:outline-none focus:border-red-500 transition-all appearance-none cursor-pointer">
+                        <option value="" class="text-slate-800 bg-white">Combustível</option>
+                        <option value="Flex" class="text-slate-800 bg-white">Flex</option>
+                        <option value="Gasolina" class="text-slate-800 bg-white">Gasolina</option>
+                        <option value="Híbrido" class="text-slate-800 bg-white">Híbrido</option>
+                        <option value="Energia" class="text-slate-800 bg-white">Energia</option>
+                    </select>
+                </div>
+                <!-- Botões -->
+                <div class="flex gap-2 pb-0.5">
+                    <button id="filter-btn" class="px-6 py-2.5 bg-white text-primary text-sm font-semibold rounded-xl hover:bg-slate-100 transition-all shadow-sm">Filtrar</button>
+                    <button id="clear-filters-btn" class="px-4 py-2.5 text-sm text-white/60 rounded-xl hover:text-white hover:bg-white/10 transition-all">Limpar</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div id="car-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            
+
+                    <!-- Toyota Hilux SRX 2021 -->
+                    <div class="car-card bg-white rounded-2xl overflow-hidden shadow-lg card-hover group" data-folder="Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.45.24 (2).jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.45.24 (3).jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.45.24.jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.45.25 (1).jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.45.25 (2).jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.45.25 (3).jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.45.25 (4).jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.45.25.jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.45.26.jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.46.04 (1).jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.46.04 (2).jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.46.04 (3).jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.46.04 (4).jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.46.04.jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.46.05 (1).jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.46.05 (2).jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.46.05 (3).jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.46.05 (4).jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.46.05 (5).jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.46.05.jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.46.06 (1).jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.46.06 (2).jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.46.06 (3).jpeg|Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.46.06 (4).jpeg" data-doors="4 portas" data-engine="2.8" data-power="204 cv" data-plate="1" data-ipva="✓ Em dia" data-color="" data-transmission="Automático" data-features="Kit Multimídia|Som JBL|Ar Condicionado Digital|Direção Hidráulica|Bancos em Couro|Luz de Caçamba Original|Rock Light com Controle|Luz Ambiente nos Pés|Pedal Buster com Controle|Lift 2 Polegadas Legalizado|Kit GR Sport|Pedaleira Alumínio GR Sport|Insulfilm Carbon UV|Subwoofer com Regulador">
+                        <div class="relative h-56 overflow-hidden">
+                            <img src="Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.45.24 (1).jpeg" alt="Toyota Hilux SRX" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <div class="absolute top-4 left-4">
+                                <span class="px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-full">Pickup</span>
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-display text-lg font-bold text-primary mb-1">Toyota Hilux SRX</h3>
+                            <p class="text-white text-sm mb-3">2021 • A consultar • Diesel</p>
+                            <div class="flex gap-3 mb-4">
+                                <span class="px-2 py-1 bg-black-100 text-xs rounded text-white-600">Automático</span>
+                                <span class="px-2 py-1 bg-black-100 text-xs rounded text-white-600">4x4</span>
+                            </div>
+                            <div class="flex justify-between items-center pt-4 border-t border-white-100">
+                                <p class="text-xl font-bold text-white">R$ 239.900</p>
+                                <a href="detalhes.html" class="px-4 py-2 bg-primary text-white text-sm font-semibold rounded-lg hover:bg-slate-800 transition-all">
+                                    Ver Detalhes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+        </div>
+
+        <!-- Pagination -->
+        <div id="inventory-pagination" class="mt-12 flex justify-center gap-2">
+            <button id="page-prev" class="w-10 h-10 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-100 transition-colors">
+                <i data-lucide="chevron-left" class="w-5 h-5"></i>
+            </button>
+            <button class="page-btn w-10 h-10 rounded-lg bg-primary text-white flex items-center justify-center font-medium" data-page="1">1</button>
+            <button class="page-btn w-10 h-10 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-100 transition-colors" data-page="2">2</button>
+            <button class="page-btn w-10 h-10 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-100 transition-colors" data-page="3">3</button>
+            <button id="page-next" class="w-10 h-10 rounded-lg border border-slate-200 flex items-center justify-center hover:bg-slate-100 transition-colors">
+                <i data-lucide="chevron-right" class="w-5 h-5"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white pt-16 pb-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div class="col-span-2">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i data-lucide="car" class="w-8 h-8 text-secondary"></i>
+                        <span class="font-display text-2xl font-bold">Mini's Car Multimarcas</span>
+                    </div>
+                    <p class="text-slate-400 max-w-sm">Tecnologia e transparência no mercado de seminovos.</p>
+                    <div class="flex gap-4 mt-6">
+                        <a href="https://www.instagram.com/miniscar2021/" target="_blank" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-red-700 hover:text-primary transition-all" aria-label="Instagram">
+                            <i class="fa-brands fa-instagram text-lg"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-red-700 hover:text-primary transition-all" aria-label="Facebook">
+                            <i class="fa-brands fa-facebook-f text-lg"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-red-700 hover:text-primary transition-all" aria-label="TikTok">
+                            <i class="fa-brands fa-tiktok text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Links</h4>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li><a href="index.html" class="hover:text-secondary">Home</a></li>
+                        <li><a href="estoque.html" class="hover:text-secondary">Estoque</a></li>
+                        <li><a href="contato.html" class="hover:text-secondary">Contato</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Contato</h4>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li>(42) 0000-0000</li>
+                        <li>email@exemplo.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 text-center text-slate-500 text-sm">
+                © 2026 Ryan Panzarini. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+
+        function sanitizeValue(value) {
+            return (value || '').replace(/\s+/g, ' ').trim();
+        }
+
+        function inferFolderFromImage(imagePath) {
+            const normalizedPath = sanitizeValue(imagePath);
+            if (!normalizedPath || normalizedPath.startsWith('http://') || normalizedPath.startsWith('https://')) return '';
+            const lastSlashIndex = normalizedPath.lastIndexOf('/');
+            return lastSlashIndex <= 0 ? '' : normalizedPath.slice(0, lastSlashIndex);
+        }
+
+        const carCards = document.querySelectorAll('.car-card');
+
+        carCards.forEach((card) => {
+            const titleText = sanitizeValue(card.querySelector('h3')?.textContent);
+            const metaText = sanitizeValue(card.querySelector('p.text-slate-500')?.textContent);
+            const tags = card.querySelectorAll('.flex.gap-3.mb-4 span');
+            const transmission = sanitizeValue(tags[0]?.textContent);
+            const color = sanitizeValue(tags[1]?.textContent);
+            const priceRaw = sanitizeValue(card.querySelector('p.text-xl')?.textContent);
+            const imageSrc = card.querySelector('img')?.getAttribute('src') || '';
+            const detailLink = card.querySelector('a[href*="detalhes.html"]');
+            const doors = sanitizeValue(card.getAttribute('data-doors'));
+            const engine = sanitizeValue(card.getAttribute('data-engine'));
+            const power = sanitizeValue(card.getAttribute('data-power'));
+            const plate = sanitizeValue(card.getAttribute('data-plate'));
+            const ipva = sanitizeValue(card.getAttribute('data-ipva'));
+            const features = sanitizeValue(card.getAttribute('data-features'));
+            const folder = sanitizeValue(card.getAttribute('data-folder'));
+            if (!detailLink || !titleText || !metaText) return;
+            const titleParts = titleText.split(' ');
+            const brand = sanitizeValue(titleParts.shift());
+            const model = sanitizeValue(titleParts.join(' '));
+            const metaParts = metaText.split('•').map((part) => sanitizeValue(part));
+            const year = metaParts[0] || '';
+            const km = (metaParts[1] || '').replace(' km', '').trim();
+            const fuel = metaParts[2] || '';
+            const price = priceRaw.replace('R$', '').trim();
+            const dataImages = sanitizeValue(card.getAttribute('data-images'));
+            const images = dataImages ? dataImages : imageSrc;
+            const resolvedFolder = folder || inferFolderFromImage(imageSrc);
+            const params = new URLSearchParams({ brand, model, year, km, fuel, transmission, color, price, img: imageSrc, images, doors, engine, power, plate, ipva, features, folder: resolvedFolder });
+            detailLink.href = `detalhes.html?${params.toString()}`;
+            card.classList.add('cursor-pointer');
+            card.setAttribute('role', 'link');
+            card.setAttribute('tabindex', '0');
+            card.addEventListener('click', (event) => {
+                const interactiveTarget = event.target.closest('a, button, input, select, textarea, label');
+                if (interactiveTarget && interactiveTarget !== detailLink) return;
+                window.location.href = detailLink.href;
+            });
+            card.addEventListener('keydown', (event) => {
+                if (event.key !== 'Enter' && event.key !== ' ') return;
+                event.preventDefault();
+                window.location.href = detailLink.href;
+            });
+        });
+
+        function inferVehicleType(card) {
+            const folder = sanitizeValue(card.getAttribute('data-folder'));
+            return folder.toLowerCase().includes('/motos/') ? 'Moto' : 'Carro';
+        }
+
+        // ----- Brand Dropdown -----
+        const brandOptions = ['BYD','Chevrolet','Citroën','Fiat','Ford','Honda','Hyundai','Jeep','KIA','Land Rover','Mitsubishi','Nissan','Peugeot','Ram','Renault','Toyota','Volkswagen'];
+        let selectedBrand = '';
+
+        function renderBrandList(filterText) {
+            const brandList = document.getElementById('brand-list');
+            if (!brandList) return;
+            const filtered = filterText ? brandOptions.filter(b => b.toLowerCase().includes(filterText.toLowerCase())) : brandOptions;
+            brandList.innerHTML = filtered.map(brand => {
+                const isSelected = selectedBrand === brand;
+                return `<button type="button" class="brand-option text-left px-2 py-1.5 text-sm rounded-lg transition-colors ${isSelected ? 'bg-primary text-white' : 'hover:bg-slate-100 text-slate-700'}" data-brand="${brand}">${brand}</button>`;
+            }).join('');
+            brandList.querySelectorAll('.brand-option').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    selectedBrand = selectedBrand === btn.dataset.brand ? '' : btn.dataset.brand;
+                    updateBrandLabel();
+                    document.getElementById('brand-dropdown-panel').classList.add('hidden');
+                    currentPage = 1;
+                    applyInventoryFilters();
+                });
+            });
+        }
+
+        function updateBrandLabel() {
+            const label = document.getElementById('brand-dropdown-label');
+            if (!label) return;
+            label.textContent = selectedBrand || 'Marca';
+            label.className = selectedBrand ? 'font-medium text-primary' : 'text-slate-500';
+        }
+
+        const brandDropdownBtn = document.getElementById('brand-dropdown-btn');
+        const brandDropdownPanel = document.getElementById('brand-dropdown-panel');
+        if (brandDropdownBtn) {
+            brandDropdownBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isHidden = brandDropdownPanel.classList.contains('hidden');
+                brandDropdownPanel.classList.toggle('hidden', !isHidden);
+                if (isHidden) { renderBrandList(''); lucide.createIcons(); document.getElementById('brand-search-input')?.focus(); }
+            });
+        }
+        document.addEventListener('click', (e) => {
+            const wrapper = document.getElementById('brand-dropdown-wrapper');
+            if (wrapper && !wrapper.contains(e.target)) brandDropdownPanel?.classList.add('hidden');
+        });
+        document.getElementById('brand-search-input')?.addEventListener('input', (e) => renderBrandList(e.target.value));
+        document.getElementById('brand-clear-btn')?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            selectedBrand = '';
+            updateBrandLabel();
+            renderBrandList('');
+            currentPage = 1;
+            applyInventoryFilters();
+        });
+
+        // ----- Filter & Pagination -----
+        const priceFilterRange = document.getElementById('price-filter-range');
+        const priceFilterMaxLabel = document.getElementById('price-filter-max-label');
+        const clearFiltersBtn = document.getElementById('clear-filters-btn');
+        const pagePrevBtn = document.getElementById('page-prev');
+        const pageNextBtn = document.getElementById('page-next');
+        const pageButtons = Array.from(document.querySelectorAll('.page-btn'));
+        const itemsPerPage = 12;
+        let currentPage = 1;
+        let lastFilteredCount = 0;
+        let selectedExactYear = '';
+        let selectedModelFilter = '';
+
+        function parsePriceToNumber(priceText) {
+            return Number(String(priceText || '').replace(/[^\d]/g, '') || 0);
+        }
+        function formatCurrency(value) {
+            return `R$ ${Number(value || 0).toLocaleString('pt-BR')}`;
+        }
+        function getTotalPages(count) {
+            return Math.max(1, Math.ceil(count / itemsPerPage));
+        }
+
+        function parseCardData(card) {
+            const titleText = sanitizeValue(card.querySelector('h3')?.textContent);
+            const metaText = sanitizeValue(card.querySelector('p.text-slate-500')?.textContent);
+            const priceText = sanitizeValue(card.querySelector('p.text-xl')?.textContent);
+            const titleParts = titleText.split(' ');
+            const brand = sanitizeValue(titleParts.shift());
+            const model = sanitizeValue(titleParts.join(' '));
+            const metaParts = metaText.split('•').map((part) => sanitizeValue(part));
+            return { type: inferVehicleType(card), brand, model, year: Number(metaParts[0] || 0), fuel: metaParts[2] || '', price: parsePriceToNumber(priceText) };
+        }
+
+        function applyInitialSearchFiltersFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const requestedBrand = sanitizeValue(params.get('brand'));
+            selectedModelFilter = sanitizeValue(params.get('model'));
+            selectedExactYear = sanitizeValue(params.get('year'));
+            if (requestedBrand) { selectedBrand = requestedBrand; updateBrandLabel(); }
+        }
+
+        function applyInventoryFilters() {
+            const searchText = sanitizeValue(document.getElementById('search-input')?.value).toLowerCase();
+            const selectedType = sanitizeValue(document.getElementById('type-select')?.value);
+            const selectedMaxPrice = Number(priceFilterRange?.value || 500000);
+            const selectedFuel = sanitizeValue(document.getElementById('fuel-select')?.value);
+
+            if (priceFilterMaxLabel) priceFilterMaxLabel.textContent = formatCurrency(selectedMaxPrice);
+
+            const filteredCards = Array.from(carCards).filter((card) => {
+                const d = parseCardData(card);
+                const fullText = (d.brand + ' ' + d.model).toLowerCase();
+                return (!searchText || fullText.includes(searchText))
+                    && (!selectedType || d.type === selectedType)
+                    && (!selectedBrand || d.brand === selectedBrand)
+                    && (!selectedFuel || d.fuel === selectedFuel)
+                    && (d.price <= selectedMaxPrice)
+                    && (!selectedExactYear || String(d.year) === selectedExactYear)
+                    && (!selectedModelFilter || d.model === selectedModelFilter);
+            });
+
+            lastFilteredCount = filteredCards.length;
+            const totalPages = getTotalPages(lastFilteredCount);
+            if (currentPage < 1) currentPage = 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            carCards.forEach((card) => card.classList.add('hidden'));
+            filteredCards.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).forEach((card) => card.classList.remove('hidden'));
+
+            const paginationContainer = document.getElementById('inventory-pagination');
+            if (paginationContainer) paginationContainer.classList.toggle('hidden', totalPages <= 1);
+
+            if (pagePrevBtn) { pagePrevBtn.disabled = currentPage === 1; pagePrevBtn.classList.toggle('opacity-40', currentPage === 1); }
+            if (pageNextBtn) { pageNextBtn.disabled = currentPage === totalPages; pageNextBtn.classList.toggle('opacity-40', currentPage === totalPages); }
+            pageButtons.forEach((button) => {
+                const buttonPage = Number(button.dataset.page || 1);
+                const isActive = buttonPage === currentPage;
+                button.classList.toggle('hidden', buttonPage > totalPages);
+                button.classList.toggle('bg-primary', isActive);
+                button.classList.toggle('text-white', isActive);
+                button.classList.toggle('border', !isActive);
+                button.classList.toggle('border-slate-200', !isActive);
+            });
+        }
+
+        // Filter event listeners
+        document.getElementById('search-input')?.addEventListener('input', () => { currentPage = 1; applyInventoryFilters(); });
+        document.getElementById('type-select')?.addEventListener('change', () => { currentPage = 1; applyInventoryFilters(); });
+        document.getElementById('fuel-select')?.addEventListener('change', () => { currentPage = 1; applyInventoryFilters(); });
+        if (priceFilterRange) priceFilterRange.addEventListener('input', applyInventoryFilters);
+        document.getElementById('filter-btn')?.addEventListener('click', () => { currentPage = 1; applyInventoryFilters(); });
+
+        if (clearFiltersBtn) {
+            clearFiltersBtn.addEventListener('click', () => {
+                const si = document.getElementById('search-input'); if (si) si.value = '';
+                const ts = document.getElementById('type-select'); if (ts) ts.value = '';
+                const fs = document.getElementById('fuel-select'); if (fs) fs.value = '';
+                selectedBrand = ''; updateBrandLabel();
+                selectedExactYear = ''; selectedModelFilter = '';
+                if (priceFilterRange) priceFilterRange.value = String(priceFilterRange.max || 500000);
+                currentPage = 1; applyInventoryFilters();
+            });
+        }
+
+        pageButtons.forEach((button) => { button.addEventListener('click', () => { currentPage = Number(button.dataset.page || 1); applyInventoryFilters(); }); });
+        if (pagePrevBtn) { pagePrevBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage -= 1; applyInventoryFilters(); } }); }
+        if (pageNextBtn) { pageNextBtn.addEventListener('click', () => { if (currentPage < getTotalPages(lastFilteredCount)) { currentPage += 1; applyInventoryFilters(); } }); }
+
+        // ----- Sorting -----
+        const sortSelect = document.getElementById('sort-select');
+        const carGrid = document.getElementById('car-grid');
+
+        function extractKmFromCard(card) {
+            const meta = sanitizeValue(card.querySelector('p.text-slate-500')?.textContent).split('•');
+            return Number((meta[1] || '').replace(' km', '').replace(/\./g, '').trim() || 0);
+        }
+        function extractYearFromCard(card) {
+            return Number(sanitizeValue(card.querySelector('p.text-slate-500')?.textContent).split('•')[0] || 0);
+        }
+        function extractPriceFromCard(card) {
+            return parsePriceToNumber(sanitizeValue(card.querySelector('p.text-xl')?.textContent));
+        }
+
+        function sortCarCards(sortType) {
+            const allCards = Array.from(carCards);
+            allCards.sort((a, b) => {
+                switch (sortType) {
+                    case 'Mais recentes': return extractYearFromCard(b) - extractYearFromCard(a);
+                    case 'Menor preço': return extractPriceFromCard(a) - extractPriceFromCard(b);
+                    case 'Maior preço': return extractPriceFromCard(b) - extractPriceFromCard(a);
+                    case 'Menor km': return extractKmFromCard(a) - extractKmFromCard(b);
+                    default: return 0;
+                }
+            });
+            allCards.forEach(card => carGrid.appendChild(card));
+            applyInventoryFilters();
+        }
+
+        if (sortSelect) { sortSelect.addEventListener('change', (event) => sortCarCards(event.target.value)); }
+
+        applyInitialSearchFiltersFromUrl();
+        applyInventoryFilters();
+    </script>
+
+</body>
+</html>
+

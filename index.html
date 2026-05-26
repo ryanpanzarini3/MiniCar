@@ -1,0 +1,835 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini's Car Multimarcas</title>
+    <link rel="icon" type="image/png" sizes="64x64" href="favicon.png?v=2">
+    <link rel="shortcut icon" type="image/png" href="favicon.png?v=2">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0a0a0a',
+                        secondary: '#dc2626',
+                        accent: '#ef4444',
+                        surface: '#000000',
+                        glass: 'rgba(255, 255, 255, 0.1)'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            background-image: url('imagens/Red\ and\ Black\ Geometric\ Abstract\ Zoom\ Virtual\ Background.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center center;
+        }
+        .glass {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgb(126, 35, 35);
+        }
+        .glass-dark {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1e293b 50%, #0a0a0a 100%);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -15px rgba(220, 38, 38, 0.3);
+        }
+        .featured-car-card { background-color: #7f1d1d !important; }
+        .featured-car-card h3 { color: #f1f5f9 !important; }
+        .featured-car-card .text-slate-500, .featured-car-card .text-slate-600 { color: #94a3b8 !important; }
+        .featured-car-card .border-slate-100 { border-color: rgba(255,255,255,0.1) !important; }
+        .btn-glow:hover {
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .logo-l-e {
+            color: #ffffff;
+            animation: glowWhite 3s ease-in-out infinite;
+        }
+        .logo-m {
+            color: #ef4444;
+            animation: glowRed 3s ease-in-out infinite;
+            animation-delay: 0.3s;
+        }
+        .logo-auto {
+            color: #ffffff;
+            animation: glowWhite 3s ease-in-out infinite;
+            animation-delay: 0.6s;
+        }
+        @keyframes glowWhite {
+            0%, 100% { 
+                text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+            }
+            50% { 
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.5);
+            }
+        }
+        @keyframes glowRed {
+            0%, 100% { 
+                text-shadow: 0 0 5px rgba(220, 38, 38, 0.3);
+            }
+            50% { 
+                text-shadow: 0 0 20px rgba(220, 38, 38, 0.8), 0 0 30px rgba(220, 38, 38, 0.5);
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-100 antialiased">
+
+    <!-- Navigation -->
+<nav id="navbar" class="fixed top-0 left-0 w-full bg-transparent backdrop-blur-md z-50 border-b-2 border-red-600/70 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+                <div class="flex items-center">
+                    <div class="flex items-center gap-3">
+                        <div class="leading-none">
+                            <div class="font-display font-black text-xl text-white tracking-[0.1em]">MINI'S CAR</div>
+                            <div class="font-display font-black text-sm text-red-500 tracking-[0.2em]">MULTIMARCAS</div>
+                            <div class="flex gap-1.5 mt-1"><div class="h-[2px] w-12 bg-red-500 rounded-full"></div><div class="h-[2px] w-6 bg-red-500 rounded-full"></div></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-sm font-medium text-white logo-auto hover:text-red-500 transition-colors">Home</a>
+                    <a href="estoque.html" class="text-sm font-medium text-white logo-auto hover:text-red-500 transition-colors">Estoque</a>
+                    <a href="sobre.html" class="text-sm font-medium text-white logo-auto hover:text-red-500 transition-colors">Sobre</a>
+                    <a href="contato.html" class="px-6 py-3 bg-red-600 text-white font-semibold rounded-full hover:bg-red-500 transition-all btn-glow">
+                        Contato
+                    </a>
+                </div>
+
+                <button class="md:hidden" id="mobile-menu-btn">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div class="hidden md:hidden border-t border-white/10" id="mobile-menu">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="index.html" class="block py-3 text-sm font-medium hover:text-red-500">Home</a>
+                <a href="estoque.html" class="block py-3 text-sm font-medium hover:text-red-500">Estoque</a>
+                <a href="sobre.html" class="block py-3 text-sm font-medium hover:text-red-500">Sobre</a>
+                <a href="contato.html" class="block py-3 text-sm font-medium text-red-500">Contato</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center overflow-hidden" style="background: linear-gradient(rgba(95, 89, 89, 0.4), rgba(0, 0, 0, 0.4)), url('imagens/WhatsApp\ Image\ 2026-05-26\ at\ 11.27.35\ \(1\).jpeg'); background-size: cover; background-position: center; background-attachment: fixed;">
+        
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div class="fade-in backdrop-blur-sm bg-black/40 rounded-3xl px-8 py-10">
+                <div class="inline-flex items-center px-4 py-2 rounded-full bg-white/10 border border-white/20 text-red-500 text-sm font-medium mb-6">
+                    <span class="w-2 h-2 rounded-full bg-red-600 mr-2 animate-pulse"></span>
+                    Tecnologia em cada detalhe
+                </div>
+                <h1 class="font-display text-5xl md:text-7xl font-bold text-white leading-tight mb-6">
+                    SLOGAN <span class="text-gradient"> DA LOJA</span> 
+                </h1>
+                <p class="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
+                    Uma frase curta e impactante que transmita a essência da loja, como "Encontre seu próximo carro com confiança e qualidade" ou "A melhor seleção de carros seminovos para você".
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="estoque.html" class="px-8 py-4 bg-secondary text-primary font-bold rounded-full hover:bg-red-600 transition-all btn-glow text-center">
+                        Ver Estoque
+                    </a>
+                    <a href="contato.html" class="px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-full hover:bg-white/10 transition-all text-center">
+                        Fale Conosco
+                    </a>
+                </div>
+                
+                <div class="mt-12 flex items-center justify-center gap-8 text-white text-sm">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="shield-check" class="w-5 h-5 text-red-500"></i>
+                        <span>Garantia 3 meses</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="relative -mt-10 z-20 px-4">
+        <div class="max-w-5xl mx-auto glass rounded-2xl p-6 shadow-2xl border border-black">
+            <div class="grid md:grid-cols-4 gap-4">
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-white">Marca</label>
+                    <select id="brand-select" class="w-full px-4 py-3 rounded-xl border border-white/20 bg-gray-800 text-slate-100 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20">
+                        <option value="all">Todas as marcas</option>
+                        <option value="Abarth">Abarth</option>
+                        <option value="Alfa Romeo">Alfa Romeo</option>
+                        <option value="Audi">Audi</option>
+                        <option value="BMW">BMW</option>
+                        <option value="BYD">BYD</option>
+                        <option value="Caoa Chery">Caoa Chery</option>
+                        <option value="Chevrolet">Chevrolet</option>
+                        <option value="Citroën">Citroën</option>
+                        <option value="Fiat">Fiat</option>
+                        <option value="Ford">Ford</option>
+                        <option value="GWM">GWM</option>
+                        <option value="Honda">Honda</option>
+                        <option value="Hyundai">Hyundai</option>
+                        <option value="Jac Motors">Jac Motors</option>
+                        <option value="Jaecoo">Jaecoo</option>
+                        <option value="Jeep">Jeep</option>
+                        <option value="Kia">Kia</option>
+                        <option value="Land Rover">Land Rover</option>
+                        <option value="Lexus">Lexus</option>
+                        <option value="Maserati">Maserati</option>
+                        <option value="Mercedes-Benz">Mercedes-Benz</option>
+                        <option value="Mini">Mini</option>
+                        <option value="Mitsubishi">Mitsubishi</option>
+                        <option value="Nissan">Nissan</option>
+                        <option value="Omoda">Omoda</option>
+                        <option value="Peugeot">Peugeot</option>
+                        <option value="Porsche">Porsche</option>
+                        <option value="Ram">Ram</option>
+                        <option value="Renault">Renault</option>
+                        <option value="Subaru">Subaru</option>
+                        <option value="Suzuki">Suzuki</option>
+                        <option value="Toyota">Toyota</option>
+                        <option value="Volkswagen">Volkswagen</option>
+                        <option value="Volvo">Volvo</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-white">Modelo</label>
+                    <select id="model-select" class="w-full px-4 py-3 rounded-xl border border-white/20 bg-gray-800 text-slate-100 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20">
+                        <option value="all">Todos os modelos</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm font-medium text-white">Ano</label>
+                    <select id="year-select" class="w-full px-4 py-3 rounded-xl border border-white/20 bg-gray-800 text-slate-100 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20">
+                        <option value="all">Todos os anos</option>
+                    </select>
+                </div>
+                <div class="flex items-end">
+                    <button id="search-vehicles-btn" class="w-full px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-slate-800 transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="search" class="w-5 h-5"></i>
+                        Buscar Veículos
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Vehicles -->
+    <section class="py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="backdrop-blur-sm bg-black/40 rounded-3xl px-8 py-10">
+            <div class="text-center mb-16">
+                <h2 class="font-display text-4xl font-bold text-white mb-4">Destaques do Estoque</h2>
+                <p class="text-slate-400 max-w-2xl mx-auto">Veículos selecionados e aprovados em nosso rigoroso processo de inspeção tecnológica de 150 pontos.</p>
+            </div>
+
+            <div id="featured-cars-grid" class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Car Card 2 -->
+                <div class="featured-car-card bg-white rounded-2xl overflow-hidden shadow-lg card-hover group h-full flex flex-col" data-brand="Toyota" data-model="Hilux SRX" data-year="2021" data-folder="Estoque/Toyota/Hilux SRX" data-images="Estoque/Toyota/Hilux SRX/WhatsApp Image 2026-05-26 at 11.45.24 (1).jpeg" data-doors="4 portas" data-engine="2.8 Turbo" data-power="204 cv" data-plate="3" data-ipva="✓ Em dia" data-color="Prata" data-transmission="Automático" data-features="Ar Condicionado Digital|Direção Elétrica|Vidros Elétricos|Travas Elétricas|Freios ABS|Controle de Estabilidade|Central Multimídia|Câmera de Ré">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="Estoque/Toyota/Hilux/WhatsApp Image 2026-05-26 at 11.45.24 (1).jpeg" alt="Carro" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-blue-500 text-white text-xs font-bold rounded-full">PROMOÇÃO</span>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center hover:bg-red-700 transition-colors">
+                                <i data-lucide="heart" class="w-5 h-5 text-slate-600"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-display text-xl font-bold text-white">TOYOTA HILUX SRX</h3>
+                                <p class="text-white text-sm">2021</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 my-4 text-sm text-white">
+                            <div class="flex items-center gap-1">
+                                <i data-lucide="fuel" class="w-4 h-4"></i>
+                                <span>Flex</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <i data-lucide="settings-2" class="w-4 h-4"></i>
+                                <span>Automático</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-white/20 mt-auto">
+                            <p class="text-xs text-white/40 line-through mb-1">De R$ 89.900</p>
+                            <p class="text-sm text-white/50 font-medium">Por</p>
+                            <p class="text-3xl font-extrabold text-white tracking-tight leading-none whitespace-nowrap mb-3">R$ 239.900</p>
+                            <a href="detalhes.html" class="block w-full py-3 bg-gradient-to-r from-black to-black text-white text-xs font-extrabold uppercase tracking-wide rounded-full text-center shadow-[0_8px_16px_rgba(220,38,38,0.28)] hover:from-red-500 hover:to-black-600 transition-all">
+                                Tenho Interesse
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Card 3 -->
+                <div class="featured-car-card bg-white rounded-2xl overflow-hidden shadow-lg card-hover group h-full flex flex-col" data-brand="Fiat" data-model="Argo Drive 1.0" data-year="2025" data-folder="Estoque/Fiat/Argo Drive 2025" data-images="Estoque/Fiat/Argo Drive 2025/IMG_0861.jpg|Estoque/Fiat/Argo Drive 2025/IMG_0864.jpg|Estoque/Fiat/Argo Drive 2025/IMG_0865.jpg|Estoque/Fiat/Argo Drive 2025/IMG_0866.jpg|Estoque/Fiat/Argo Drive 2025/IMG_0868.jpg|Estoque/Fiat/Argo Drive 2025/IMG_0869.jpg|Estoque/Fiat/Argo Drive 2025/IMG_0870.jpg|Estoque/Fiat/Argo Drive 2025/IMG_0872.jpg|Estoque/Fiat/Argo Drive 2025/IMG_0874.jpg|Estoque/Fiat/Argo Drive 2025/IMG_0876.jpg|Estoque/Fiat/Argo Drive 2025/IMG_0879.jpg|Estoque/Fiat/Argo Drive 2025/IMG_0880.jpg|Estoque/Fiat/Argo Drive 2025/IMG_0882.jpg|Estoque/Fiat/Argo Drive 2025/IMG_0883.jpg|Estoque/Fiat/Argo Drive 2025/IMG_0884.jpg|Estoque/Fiat/Argo Drive 2025/IMG_0885.jpg" data-doors="4 portas" data-engine="1.0" data-power="82 cv" data-plate="0" data-ipva="✓ Quitado" data-color="Azul" data-transmission="Manual" data-features="Ar Condicionado|Direção Elétrica|Vidros Elétricos Dianteiros|Travas Elétricas|Freios ABS|Airbag Duplo|Central Multimídia|Computador de Bordo">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="imagens/Gemini_Generated_Image_lqx9gzlqx9gzlqx9.png" alt="Carro" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-purple-500 text-white text-xs font-bold rounded-full">NOVO</span>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center hover:bg-red-700 transition-colors">
+                                <i data-lucide="heart" class="w-5 h-5 text-slate-600"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-display text-xl font-bold text-white">Fiat Argo Drive 1.0</h3>
+                                <p class="text-white text-sm">2025 • 36.000 km</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 my-4 text-sm text-white">
+                            <div class="flex items-center gap-1">
+                                <i data-lucide="fuel" class="w-4 h-4"></i>
+                                <span>Flex</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <i data-lucide="settings-2" class="w-4 h-4"></i>
+                                <span>Manual</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-white/20 mt-auto">
+                            <p class="text-xs text-white/40 line-through mb-1">De R$ 74.900</p>
+                            <p class="text-sm text-white/50 font-medium">Por</p>
+                            <p class="text-3xl font-extrabold text-white tracking-tight leading-none whitespace-nowrap mb-3">R$ 72.900</p>
+                            <a href="detalhes.html" class="block w-full py-3 bg-gradient-to-r from-black to-black text-white text-xs font-extrabold uppercase tracking-wide rounded-full text-center shadow-[0_8px_16px_rgba(220,38,38,0.28)] hover:from-red-500 hover:to-black-600 transition-all">
+                                Tenho Interesse
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Car Card 4 -->
+                <div class="featured-car-card bg-white rounded-2xl overflow-hidden shadow-lg card-hover group h-full flex flex-col" data-brand="Honda" data-model="HR-V EXL" data-year="2023" data-folder="Estoque/honda/Honda HRV-V 2023" data-images="Estoque/honda/Honda HRV-V 2023/WhatsApp Image 2026-03-04 at 11.18.27.jpeg|Estoque/honda/Honda HRV-V 2023/WhatsApp Image 2026-03-04 at 11.18.27 (1).jpeg|Estoque/honda/Honda HRV-V 2023/WhatsApp Image 2026-03-04 at 11.18.28.jpeg|Estoque/honda/Honda HRV-V 2023/WhatsApp Image 2026-03-04 at 11.18.28 (1).jpeg|Estoque/honda/Honda HRV-V 2023/WhatsApp Image 2026-03-04 at 11.18.28 (2).jpeg|Estoque/honda/Honda HRV-V 2023/WhatsApp Image 2026-03-04 at 11.18.28 (3).jpeg|Estoque/honda/Honda HRV-V 2023/WhatsApp Image 2026-03-04 at 11.18.29.jpeg|Estoque/honda/Honda HRV-V 2023/WhatsApp Image 2026-03-04 at 11.18.29 (1).jpeg|Estoque/honda/Honda HRV-V 2023/WhatsApp Image 2026-03-04 at 11.18.29 (2).jpeg|Estoque/honda/Honda HRV-V 2023/WhatsApp Image 2026-03-04 at 11.18.29 (3).jpeg|Estoque/honda/Honda HRV-V 2023/WhatsApp Image 2026-03-04 at 11.18.29 (4).jpeg|Estoque/honda/Honda HRV-V 2023/WhatsApp Image 2026-03-04 at 11.18.30.jpeg|Estoque/honda/Honda HRV-V 2023/WhatsApp Image 2026-03-04 at 11.18.30 (1).jpeg" data-doors="4 portas" data-engine="1.5" data-power="177 cv" data-plate="6" data-ipva="✓ Em dia" data-color="Cinza" data-transmission="Automático" data-features="Ar Condicionado Digital|Direção Elétrica|Vidros Elétricos|Travas Elétricas|Freios ABS|Controle de Estabilidade|Central Multimídia|Câmera de Ré|Bancos em Couro">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="imagens/Gemini_Generated_Image_lqx9gzlqx9gzlqx9.png" alt="Honda HR-V EXL 2023" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-full">SUV</span>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center hover:bg-red-700 transition-colors">
+                                <i data-lucide="heart" class="w-5 h-5 text-slate-600"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-display text-xl font-bold text-white">Honda HR-V EXL 2023</h3>
+                                <p class="text-white text-sm">2023 • 17.000 km</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 my-4 text-sm text-white">
+                            <div class="flex items-center gap-1">
+                                <i data-lucide="fuel" class="w-4 h-4"></i>
+                                <span>Flex</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <i data-lucide="settings-2" class="w-4 h-4"></i>
+                                <span>Automático</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-white/20 mt-auto">
+                            <p class="text-xs text-white/40 line-through mb-1">De R$ 146.900</p>
+                            <p class="text-sm text-white/50 font-medium">Por</p>
+                            <p class="text-3xl font-extrabold text-white tracking-tight leading-none whitespace-nowrap mb-3">R$ 144.900</p>
+                            <a href="detalhes.html" class="block w-full py-3 bg-gradient-to-r from-black to-black text-white text-xs font-extrabold uppercase tracking-wide rounded-full text-center shadow-[0_8px_16px_rgba(220,38,38,0.28)] hover:from-red-500 hover:to-black-600 transition-all">
+                                Tenho Interesse
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car Card 5 -->
+                <div class="featured-car-card bg-white rounded-2xl overflow-hidden shadow-lg card-hover group h-full flex flex-col" data-brand="Chevrolet" data-model="Tracker LT" data-year="2024" data-folder="Estoque/Chevrolet/Tracker Lt 2024" data-images="Estoque/Chevrolet/Tracker Lt 2024/IMG_0379.jpg|Estoque/Chevrolet/Tracker Lt 2024/IMG_0380.jpg|Estoque/Chevrolet/Tracker Lt 2024/IMG_0381.jpg|Estoque/Chevrolet/Tracker Lt 2024/IMG_0382.jpg|Estoque/Chevrolet/Tracker Lt 2024/IMG_0383.jpg|Estoque/Chevrolet/Tracker Lt 2024/IMG_0384.jpg|Estoque/Chevrolet/Tracker Lt 2024/IMG_0385.jpg|Estoque/Chevrolet/Tracker Lt 2024/IMG_0386.jpg|Estoque/Chevrolet/Tracker Lt 2024/IMG_0387.jpg|Estoque/Chevrolet/Tracker Lt 2024/IMG_0388.jpg|Estoque/Chevrolet/Tracker Lt 2024/IMG_0390.jpg" data-doors="4 portas" data-engine="1.0 Turbo" data-power="116 cv" data-plate="0" data-ipva="✓ Em dia" data-color="Preto" data-transmission="Automático" data-features="Ar Condicionado Digital|Direção Elétrica|Vidros Elétricos|Travas Elétricas|Freios ABS|Controle de Estabilidade|Central Multimídia|Câmera de Ré|Piloto Automático">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="imagens/Gemini_Generated_Image_lqx9gzlqx9gzlqx9.png" alt="Chevrolet Tracker LT 2024" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 bg-green-600 text-white text-xs font-bold rounded-full">SUV</span>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <button class="w-10 h-10 rounded-full bg-white/90 flex items-center justify-center hover:bg-red-700 transition-colors">
+                                <i data-lucide="heart" class="w-5 h-5 text-slate-600"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="font-display text-xl font-bold text-white">Chevrolet Tracker LT 2024</h3>
+                                <p class="text-white text-sm">2024 • 22.000 km</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 my-4 text-sm text-white">
+                            <div class="flex items-center gap-1">
+                                <i data-lucide="fuel" class="w-4 h-4"></i>
+                                <span>Flex</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <i data-lucide="settings-2" class="w-4 h-4"></i>
+                                <span>Automático</span>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-white/20 mt-auto">
+                            <p class="text-xs text-white/40 line-through mb-1">De R$ 108.900</p>
+                            <p class="text-sm text-white/50 font-medium">Por</p>
+                            <p class="text-3xl font-extrabold text-white tracking-tight leading-none whitespace-nowrap mb-3">R$ 106.900</p>
+                            <a href="detalhes.html" class="block w-full py-3 bg-gradient-to-r from-black to-black text-white text-xs font-extrabold uppercase tracking-wide rounded-full text-center shadow-[0_8px_16px_rgba(220,38,38,0.28)] hover:from-red-500 hover:to-black-600 transition-all">
+                                Tenho Interesse
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <p id="featured-no-results" class="hidden mt-8 text-center text-slate-500 font-medium">
+                Nenhum veículo encontrado com os filtros selecionados.
+            </p>
+
+            <div class="text-center mt-12">
+                <a href="estoque.html" class="inline-flex items-center gap-2 px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-full hover:bg-white/10 hover:text-white transition-all">
+                    Ver Todos os Veículos
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </a>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-2">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i data-lucide="car" class="w-8 h-8 text-secondary"></i>
+                        <span class="font-display text-2xl font-bold">Mini's Car Multimarcas</span>
+                    </div>
+                    <p class="text-slate-400 mb-6 max-w-sm">
+                        Tecnologia e transparência no mercado de seminovos. 
+                        Cada veículo é uma história de qualidade aprovada digitalmente.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="https://www.instagram.com/miniscar2021/" target="_blank" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-red-700 hover:text-primary transition-all">
+                            <i class="fa-brands fa-instagram text-lg"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-red-700 hover:text-primary transition-all">
+                            <i class="fa-brands fa-facebook-f text-lg"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-red-700 hover:text-primary transition-all">
+                            <i class="fa-brands fa-tiktok text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-lg mb-4">Links Rápidos</h4>
+                    <ul class="space-y-3 text-slate-400">
+                        <li><a href="estoque.html" class="hover:text-secondary transition-colors">Estoque</a></li>
+                        <li><a href="sobre.html" class="hover:text-secondary transition-colors">Sobre Nós</a></li>
+                        <li><a href="contato.html" class="hover:text-secondary transition-colors">Contato</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-lg mb-4">Contato</h4>
+                    <ul class="space-y-3 text-slate-400">
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="map-pin" class="w-4 h-4 text-secondary"></i>
+                            Endereço da Loja: Rua Exemplo, 123 - Centro, Cidade, Estado
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="phone" class="w-4 h-4 text-secondary"></i>
+                            <a href="tel:+5542302256505" class="hover:text-secondary transition-colors">Número de Telefone</a>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="mail" class="w-4 h-4 text-secondary"></i>
+                            <a href="mailto:angelo7676@ig.com.br" class="hover:text-secondary transition-colors">Email</a>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="clock" class="w-4 h-4 text-secondary"></i>
+                            Seg-Sex: 8h às 12h
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-slate-500 text-sm">© 2026 Ryan Panzarini. Todos os direitos reservados.</p>
+                <div class="flex gap-6 text-sm text-slate-500">
+                    <a href="#" class="hover:text-white transition-colors">Política de Privacidade</a>
+                    <a href="#" class="hover:text-white transition-colors">Termos de Uso</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/554288293123" target="_blank" class="fixed bottom-6 right-6 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform z-50">
+        <i data-lucide="message-circle" class="w-7 h-7 text-white"></i>
+    </a>
+
+    <script>
+        lucide.createIcons();
+        
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg', 'bg-primary/95');
+                navbar.classList.remove('bg-transparent');
+            } else {
+                navbar.classList.remove('shadow-lg', 'bg-primary/95');
+                navbar.classList.add('bg-transparent');
+            }
+        });
+
+        const brandSelect = document.getElementById('brand-select');
+        const modelSelect = document.getElementById('model-select');
+        const yearSelect = document.getElementById('year-select');
+        const searchVehiclesBtn = document.getElementById('search-vehicles-btn');
+        const featuredCarCards = document.querySelectorAll('.featured-car-card');
+        const featuredCarsGrid = document.getElementById('featured-cars-grid');
+        const noResultsMessage = document.getElementById('featured-no-results');
+
+        function sanitizeValue(value) {
+            return (value || '').replace(/\s+/g, ' ').trim();
+        }
+
+        function inferFolderFromImage(imagePath) {
+            const normalizedPath = sanitizeValue(imagePath);
+            if (!normalizedPath || normalizedPath.startsWith('http://') || normalizedPath.startsWith('https://')) {
+                return '';
+            }
+
+            const lastSlashIndex = normalizedPath.lastIndexOf('/');
+            if (lastSlashIndex <= 0) {
+                return '';
+            }
+
+            return normalizedPath.slice(0, lastSlashIndex);
+        }
+
+        featuredCarCards.forEach((card) => {
+            const detailLink = card.querySelector('a[href*="detalhes.html"]');
+            if (!detailLink) {
+                return;
+            }
+
+            const titleText = sanitizeValue(card.querySelector('h3')?.textContent);
+            const metaText = sanitizeValue(card.querySelector('p.text-slate-500')?.textContent);
+            const tagValues = Array.from(card.querySelectorAll('.my-4 span')).map((item) => sanitizeValue(item.textContent));
+            const imageSrc = card.querySelector('img')?.getAttribute('src') || '';
+            
+            // Tenta encontrar o preço em p.text-2xl, se não existir busca em paragrafos com "R$"
+            let priceRaw = sanitizeValue(card.querySelector('p.text-2xl')?.textContent);
+            if (!priceRaw) {
+                const allParagraphs = Array.from(card.querySelectorAll('p'));
+                const priceP = allParagraphs.find(p => p.textContent.includes('À vista:'));
+                if (priceP) {
+                    const match = priceP.textContent.match(/R\$\s*([\d.,]+)/);
+                    priceRaw = match ? `R$ ${match[1]}` : '';
+                }
+            }
+
+            if (!titleText || !metaText) {
+                return;
+            }
+
+            const titleParts = titleText.split(' ');
+            const defaultBrand = sanitizeValue(titleParts.shift());
+            const defaultModel = sanitizeValue(titleParts.join(' '));
+            const metaParts = metaText.split('•').map((part) => sanitizeValue(part));
+
+            const brand = sanitizeValue(card.getAttribute('data-brand')) || defaultBrand;
+            const model = sanitizeValue(card.getAttribute('data-model')) || defaultModel;
+            const year = sanitizeValue(card.getAttribute('data-year')) || metaParts[0] || '';
+            const km = (metaParts[1] || '').replace(' km', '').trim();
+            const fuel = tagValues[0] || '';
+            const transmission = tagValues[1] || '';
+            const color = sanitizeValue(card.getAttribute('data-color')) || '';
+            const price = priceRaw.replace('R$', '').trim();
+
+            const dataImages = sanitizeValue(card.getAttribute('data-images'));
+            const folder = sanitizeValue(card.getAttribute('data-folder')) || inferFolderFromImage(imageSrc);
+            const doors = sanitizeValue(card.getAttribute('data-doors'));
+            const engine = sanitizeValue(card.getAttribute('data-engine'));
+            const power = sanitizeValue(card.getAttribute('data-power'));
+            const plate = sanitizeValue(card.getAttribute('data-plate'));
+            const ipva = sanitizeValue(card.getAttribute('data-ipva'));
+            const features = sanitizeValue(card.getAttribute('data-features'));
+
+            const params = new URLSearchParams({
+                brand,
+                model,
+                year,
+                km,
+                fuel,
+                transmission,
+                color,
+                price,
+                img: imageSrc,
+                images: dataImages,
+                folder,
+                doors,
+                engine,
+                power,
+                plate,
+                ipva,
+                features
+            });
+
+            detailLink.href = `detalhes.html?${params.toString()}`;
+            card.classList.add('cursor-pointer');
+            card.setAttribute('role', 'link');
+            card.setAttribute('tabindex', '0');
+
+            card.addEventListener('click', (event) => {
+                const interactiveTarget = event.target.closest('a, button, input, select, textarea, label');
+                if (interactiveTarget && interactiveTarget !== detailLink) {
+                    return;
+                }
+
+                window.location.href = detailLink.href;
+            });
+
+            card.addEventListener('keydown', (event) => {
+                if (event.key !== 'Enter' && event.key !== ' ') {
+                    return;
+                }
+
+                event.preventDefault();
+                window.location.href = detailLink.href;
+            });
+        });
+
+        function parseStockCard(card) {
+            const titleText = sanitizeValue(card.querySelector('h3')?.textContent);
+            const metaText = sanitizeValue(card.querySelector('p.text-slate-500')?.textContent);
+            if (!titleText || !metaText) {
+                return null;
+            }
+
+            const titleParts = titleText.split(' ');
+            const brand = sanitizeValue(titleParts.shift());
+            const model = sanitizeValue(titleParts.join(' '));
+            const metaParts = metaText.split('•').map((part) => sanitizeValue(part));
+            const year = sanitizeValue(metaParts[0]);
+
+            if (!brand || !model || !year) {
+                return null;
+            }
+
+            return { brand, model, year };
+        }
+
+        async function loadStockVehiclesForSearch() {
+            const response = await fetch('estoque.html');
+            if (!response.ok) {
+                throw new Error('Nao foi possivel carregar o estoque para a busca.');
+            }
+
+            const html = await response.text();
+            const parser = new DOMParser();
+            const stockDocument = parser.parseFromString(html, 'text/html');
+            const cards = Array.from(stockDocument.querySelectorAll('.car-card'));
+
+            return cards
+                .map((card) => parseStockCard(card))
+                .filter(Boolean);
+        }
+
+        let stockVehiclesForSearch = [];
+
+        function getAvailableBrands() {
+            return [...new Set(stockVehiclesForSearch.map((vehicle) => vehicle.brand))]
+                .sort((a, b) => a.localeCompare(b));
+        }
+
+        function getAvailableModelsByBrand(brand) {
+            return [...new Set(stockVehiclesForSearch
+                .filter((vehicle) => brand === 'all' || vehicle.brand === brand)
+                .map((vehicle) => vehicle.model))]
+                .sort((a, b) => a.localeCompare(b));
+        }
+
+        function getAvailableYears(brand, model) {
+            return [...new Set(stockVehiclesForSearch
+                .filter((vehicle) => {
+                    const matchesBrand = brand === 'all' || vehicle.brand === brand;
+                    const matchesModel = model === 'all' || vehicle.model === model;
+                    return matchesBrand && matchesModel;
+                })
+                .map((vehicle) => Number(vehicle.year)))]
+                .filter((year) => Number.isFinite(year))
+                .sort((a, b) => b - a);
+        }
+
+        function setBrandOptions() {
+            if (!brandSelect) {
+                return;
+            }
+
+            const previousBrand = brandSelect.value;
+            brandSelect.innerHTML = '<option value="all">Todas as marcas</option>';
+
+            getAvailableBrands().forEach((brand) => {
+                const option = document.createElement('option');
+                option.value = brand;
+                option.textContent = brand;
+                brandSelect.appendChild(option);
+            });
+
+            brandSelect.value = getAvailableBrands().includes(previousBrand) ? previousBrand : 'all';
+        }
+
+        function setModelOptions() {
+            if (!modelSelect || !brandSelect) {
+                return;
+            }
+
+            const selectedBrand = brandSelect.value;
+            const previousModel = modelSelect.value;
+            modelSelect.innerHTML = '<option value="all">Todos os modelos</option>';
+
+            const models = getAvailableModelsByBrand(selectedBrand);
+            models.forEach((model) => {
+                const option = document.createElement('option');
+                option.value = model;
+                option.textContent = model;
+                modelSelect.appendChild(option);
+            });
+
+            modelSelect.value = models.includes(previousModel) ? previousModel : 'all';
+        }
+
+        function setYearOptions() {
+            if (!yearSelect || !brandSelect || !modelSelect) {
+                return;
+            }
+
+            const selectedBrand = brandSelect.value;
+            const selectedModel = modelSelect.value;
+            const previousYear = yearSelect.value;
+
+            yearSelect.innerHTML = '<option value="all">Todos os anos</option>';
+
+            const years = getAvailableYears(selectedBrand, selectedModel);
+            years.forEach((year) => {
+                const option = document.createElement('option');
+                option.value = String(year);
+                option.textContent = String(year);
+                yearSelect.appendChild(option);
+            });
+
+            yearSelect.value = years.map(String).includes(previousYear) ? previousYear : 'all';
+        }
+
+        function searchInStock() {
+            const params = new URLSearchParams();
+
+            if (brandSelect?.value && brandSelect.value !== 'all') {
+                params.set('brand', brandSelect.value);
+            }
+
+            if (modelSelect?.value && modelSelect.value !== 'all') {
+                params.set('model', modelSelect.value);
+            }
+
+            if (yearSelect?.value && yearSelect.value !== 'all') {
+                params.set('year', yearSelect.value);
+            }
+
+            const queryString = params.toString();
+            window.location.href = queryString ? `estoque.html?${queryString}` : 'estoque.html';
+        }
+
+        brandSelect.addEventListener('change', () => {
+            setModelOptions();
+            setYearOptions();
+        });
+
+        modelSelect.addEventListener('change', () => {
+            setYearOptions();
+        });
+
+        searchVehiclesBtn.addEventListener('click', searchInStock);
+
+        loadStockVehiclesForSearch()
+            .then((stockVehicles) => {
+                stockVehiclesForSearch = stockVehicles;
+                setBrandOptions();
+                setModelOptions();
+                setYearOptions();
+            })
+            .catch(() => {
+                setModelOptions();
+                setYearOptions();
+            });
+    </script>
+</body>
+</html>
